@@ -22,17 +22,40 @@ app.listen(3000, () => {
   console.log("Server is running http://localhost:3000");
 });
 
-app.get(`${api}/products`, (req, res) => {
-  const product = {
-    id: 1,
-    name: "hair dresser",
-    image: "some_url",
-  };
-  res.send(product);
+const productSchema = new mongoose.Schema({
+  name: String,
+  image: String,
+  countInStock: {
+    type: Number,
+    required: true,
+  },
+});
+
+const Product = mongoose.model("Product", productSchema);
+
+app.get(`${api}/products`, async (req, res) => {
+  const productList = await Product.find();
+  if(!productList) {
+    res.status(500).json({success: false})
+  }
+  res.send(productList);
 });
 
 app.post(`${api}/products`, (req, res) => {
-  const newProduct = req.body;
-  res.send(newProduct);
-  console.log(newProduct);
+  const product = new Product({
+    name: req.body.name,
+    image: req.body.image,
+    countInStock: req.body.countInStock,
+  });
+  product
+    .save()
+    .then((createdProduct) => {
+      res.status(201).json(createdProduct);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err,
+        success: false,
+      });
+    });
 });
