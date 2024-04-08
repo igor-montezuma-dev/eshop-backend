@@ -7,6 +7,11 @@ require('dotenv/config');
 
 const api = process.env.API_URL;
 
+//cors
+const cors = require('cors');
+app.use(cors());
+app.options('*', cors());
+
 const productsRoutes = require('./routers/products');
 const categoriesRoutes = require('./routers/categories');
 const ordersRoutes = require('./routers/orders');
