@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
-const { Category } = require("./category");
 
-const productSchema = new mongoose.Schema({
+const productSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -31,14 +30,14 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  Category: {
+  category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
-    required: true,
+    require: true,
   },
   countInStock: {
     type: Number,
-    required: true,
+    require: true,
     min: 0,
     max: 255,
   },
@@ -58,6 +57,13 @@ const productSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+});
+productSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
+
+productSchema.set("toJSON", {
+  virtuals: true,
 });
 
 exports.Product = mongoose.model("Product", productSchema);

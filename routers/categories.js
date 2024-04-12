@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { Category } = require("../models/category");
 
-// localhost:3000/api/v1/category
-
 router.get(`/`, async (req, res) => {
   const categoryList = await Category.find();
   if (!categoryList) {
