@@ -21,6 +21,27 @@ router.get(`/:id`, async (req, res) => {
   res.send(product);
 });
 
+router.get("/get/count", async (req, res) => {
+  const productCount = await Product.countDocuments();
+
+  if (!productCount) {
+    res.status(500).json({ success: false });
+  }
+  res.send({
+    productCount: productCount,
+  });
+});
+
+router.get("/get/featured/:count", async (req, res) => {
+  const count = req.params.count ? req.params.count : 0;
+  const products = await Product.find({ isFeatured: true }).limit(+count);
+
+  if (!products) {
+    res.status(500).json({ success: false });
+  }
+  res.send(products);
+});
+
 router.post(`/`, async (req, res) => {
   const category = await Category.findById(req.body.category);
   if (!category) return res.status(400).send("Invalid category!");
@@ -92,17 +113,6 @@ router.delete("/:id", (req, res) => {
     .catch((err) => {
       return res.status(400).json({ success: false, error: err });
     });
-});
-
-router.get("/get/count", async (req, res) => {
-  const productCount = await Product.countDocuments();
-
-  if (!productCount) {
-    res.status(500).json({ success: false });
-  }
-  res.send({
-    productCount: productCount,
-  });
 });
 
 module.exports = router;
