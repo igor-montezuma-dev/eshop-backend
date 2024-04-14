@@ -13,6 +13,16 @@ router.get(`/`, async (req, res) => {
   res.send(userList);
 });
 
+router.get(`/:id`, async (req, res) => {
+  const user = await User.findById(req.params.id).select("-passwordHash");
+  if (!user) {
+    res
+      .status(500)
+      .json({ message: "The user with the given ID was not found." });
+  }
+  res.send(user);
+});
+
 router.post(`/`, async (req, res) => {
   let user = new User({
     name: req.body.name,
