@@ -64,7 +64,7 @@ router.post(`/`, async (req, res) => {
     dateCreated: req.body.dateCreated,
   });
   product = await product.save();
-  if (!product) return res.status(500).send("The product cannon be created");
+  if (!product) return res.status(500).send("The product cannot be created");
 
   res.status().send(product, "Product successfully created!");
 });
