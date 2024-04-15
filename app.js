@@ -17,6 +17,7 @@ const categoriesRoutes = require("./routers/categories");
 const ordersRoutes = require("./routers/orders");
 const usersRoutes = require("./routers/users");
 const authJwt = require("./helpers/jwt");
+const errorHandler = require("./helpers/error-handler");
 
 //database connection
 mongoose
@@ -32,6 +33,7 @@ mongoose
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(authJwt());
+app.use(errorHandler);
 
 //Routers
 app.use(`${api}/products`, productsRoutes);
