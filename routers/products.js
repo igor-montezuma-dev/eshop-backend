@@ -47,26 +47,28 @@ router.get("/get/featured/:count", async (req, res) => {
 });
 
 router.post(`/`, async (req, res) => {
-  const category = await Category.findById(req.body.category);
-  if (!category) return res.status(400).send("Invalid category!");
+	const category = await Category.findById(req.body.category);
+	if (!category) return res.status(400).send('Invalid category!');
 
-  let product = new Product({
-    name: req.body.name,
-    description: req.body.description,
-    richDescription: req.body.richDescription,
-    image: req.body.image,
-    brand: req.body.brand,
-    price: req.body.price,
-    category: req.body.category,
-    countInStock: req.body.countInStock,
-    rating: req.body.rating,
-    isFeatured: req.body.isFeatured,
-    dateCreated: req.body.dateCreated,
-  });
-  product = await product.save();
-  if (!product) return res.status(500).send("The product cannot be created");
+	
+	let product = new Product({
+		name: req.body.name,
+		description: req.body.description,
+		richDescription: req.body.richDescription,
+		image: req.body.image,
+		images: req.body.images,
+		brand: req.body.brand,
+		price: req.body.price,
+		category: req.body.category,
+		countInStock: req.body.countInStock,
+		rating: req.body.rating,
+		isFeatured: req.body.isFeatured,
+		dateCreated: req.body.dateCreated,
+	});
+	product = await product.save();
+	if (!product) return res.status(500).send('The product cannon be created');
 
-  res.status().send(product, "Product successfully created!");
+	res.send(product);
 });
 
 router.put("/:id", async (req, res) => {
