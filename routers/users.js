@@ -80,6 +80,39 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+	const userExist = await User.findById(req.params.id);
+	let newPassword;
+
+	if (req.body.password) {
+		newPassword = bcrypt.hashSync(req.body.password, 10);
+	} else {
+		newPassword = userExist.passwordHash;
+	}
+	const user = await User.findByIdAndUpdate(
+		req.params.id,
+		{
+			name: req.body.name,
+			email: req.body.email,
+			passwordHash: newPassword,
+			street: req.body.street,
+			apartment: req.body.apartment,
+			city: req.body.city,
+			zip: req.body.zip,
+			country: req.body.country,
+			phone: req.body.phone,
+			isAdmin: req.body.isAdmin,
+		},
+		{
+			new: true,
+		}
+	);
+
+	if (!user) return res.status(400).send('The user cannot be updated!');
+
+	res.send(user);
+});
+
 router.delete("/:id", (req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then((user) => {
