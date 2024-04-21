@@ -8,10 +8,156 @@
   "paths": {
     "/users/login": {
       "post": {
-        "tags": ["Usuários"],
+        "tags": ["Auth"],
         "summary": "Rota de autenticação de usuários",
         "description": "Endpoint para autenticar usuários.",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "Email do usuário.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "path",
+            "description": "Senha do usuário.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "description": "Credenciais necessárias para efetuar a autenticação.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário autenticado com sucesso."
+          },
+          "401": {
+            "description": "Credenciais inválidas."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Usuários"],
+        "summary": "Rota para listagem de usuários",
+        "description": "Endpoint para autenticar usuários.",
         "parameters": [],
+        "requestBody": {
+          "description": "Credenciais necessárias para efetuar a autenticação.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário autenticado com sucesso."
+          },
+          "401": {
+            "description": "Credenciais inválidas."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": ["Usuários"],
+        "summary": "Rota de registro de usuários",
+        "description": "Endpoint para autenticar usuários.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Nome do usuário.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "path",
+            "description": "Email do usuário.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "path",
+            "description": "Senha do usuário.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "path",
+            "description": "Telefone do usuário.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "isAdmin",
+            "in": "path",
+            "description": "Role do usuário.",
+            "required": true,
+            "type": "boolean"
+          },
+          {
+            "name": "street",
+            "in": "path",
+            "description": "Rua do usuário.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "apartment",
+            "in": "path",
+            "description": "Número do endereço.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "zip",
+            "in": "path",
+            "description": "Código postal.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "city",
+            "in": "path",
+            "description": "Cidade.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "description": "País.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "requestBody": {
           "description": "Credenciais necessárias para efetuar a autenticação.",
           "required": true,
@@ -254,6 +400,46 @@
           },
           "500": {
             "description": "Erro interno."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do produto.",
+            "example": "Camiseta"
+          },
+          "description": {
+            "type": "string",
+            "description": "Descrição do produto.",
+            "example": "Camiseta de algodão."
+          },
+          "price": {
+            "type": "number",
+            "description": "Preço do produto.",
+            "example": 50.0
+          },
+          "category": {
+            "type": "string",
+            "description": "ID da categoria do produto.",
+            "example": "5f3f8d1f4f5c7b0017f3e4b1"
           }
         }
       }
