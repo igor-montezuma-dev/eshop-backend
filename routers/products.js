@@ -1,9 +1,26 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const multer = require("multer");
+
 const router = express.Router();
 
 const { Product } = require("../models/product");
 const { Category } = require("../models/category");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/uploads");
+  },
+  filename: function (req, file, cb) {
+    const fileName = file.originalname.split(" ").join("-");
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
+
+const uploadOptions = multer({ storage: storage });
 
 router.get(`/`, async (req, res) => {
   let filter = {};
@@ -46,29 +63,30 @@ router.get("/get/featured/:count", async (req, res) => {
   res.send(products);
 });
 
-router.post(`/`, async (req, res) => {
-	const category = await Category.findById(req.body.category);
-	if (!category) return res.status(400).send('Invalid category!');
+router.post(`/`, uploadOptions.single("image"), async (req, res) => {
+  const category = await Category.findById(req.body.category);
+  if (!category) return res.status(400).send("Invalid category!");
+  const fileName = req.file.filename;
+  const basePath = `${req.protocol}://${req.get("host")}/public/uploads/`;
 
-	
-	let product = new Product({
-		name: req.body.name,
-		description: req.body.description,
-		richDescription: req.body.richDescription,
-		image: req.body.image,
-		images: req.body.images,
-		brand: req.body.brand,
-		price: req.body.price,
-		category: req.body.category,
-		countInStock: req.body.countInStock,
-		rating: req.body.rating,
-		isFeatured: req.body.isFeatured,
-		dateCreated: req.body.dateCreated,
-	});
-	product = await product.save();
-	if (!product) return res.status(500).send('The product cannon be created');
+  let product = new Product({
+    name: req.body.name,
+    description: req.body.description,
+    richDescription: req.body.richDescription,
+    image: `${basePath}${fileName}`,
+    images: req.body.images,
+    brand: req.body.brand,
+    price: req.body.price,
+    category: req.body.category,
+    countInStock: req.body.countInStock,
+    rating: req.body.rating,
+    isFeatured: req.body.isFeatured,
+    dateCreated: req.body.dateCreated,
+  });
+  product = await product.save();
+  if (!product) return res.status(500).send("The product cannon be created");
 
-	res.send(product);
+  res.send(product);
 });
 
 router.put("/:id", async (req, res) => {
