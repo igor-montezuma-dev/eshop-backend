@@ -1,0 +1,262 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "E-Shop API",
+    "description": "Este é um projeto de API de e-commerce construída utilizando Node.js, Express e Mongoose. A API permite a gestão de produtos, categorias, pedidos de clientes, autenticação de usuários e autorização de acesso baseada em funções.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/users/login": {
+      "post": {
+        "tags": ["Usuários"],
+        "summary": "Rota de autenticação de usuários",
+        "description": "Endpoint para autenticar usuários.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Credenciais necessárias para efetuar a autenticação.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário autenticado com sucesso."
+          },
+          "401": {
+            "description": "Credenciais inválidas."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["Produtos"],
+        "summary": "Listar produtos",
+        "description": "Endpoint para listar todos os produtos.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Lista de produtos retornada com sucesso."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Produtos"],
+        "summary": "Cadastrar produto",
+        "description": "Endpoint para cadastrar um novo produto.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Dados do produto a ser cadastrado.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Produto cadastrado com sucesso."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      }
+    },
+    "/products/{productId}": {
+      "get": {
+        "tags": ["Produtos"],
+        "summary": "Listar produto por ID",
+        "description": "Endpoint para obter detalhes de um produto por ID.",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID do produto a ser buscado.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto encontrado com sucesso."
+          },
+          "404": {
+            "description": "Produto não encontrado."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      },
+      "put": {
+        "tags": ["Produtos"],
+        "summary": "Editar produto",
+        "description": "Endpoint para editar um produto existente.",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID do produto a ser editado.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "description": "Novos dados do produto.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Produto editado com sucesso."
+          },
+          "404": {
+            "description": "Produto não encontrado."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "tags": ["Categorias"],
+        "summary": "Listar categorias",
+        "description": "Endpoint para listar todas as categorias.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Lista de categorias retornada com sucesso."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Categorias"],
+        "summary": "Cadastrar categoria",
+        "description": "Endpoint para cadastrar uma nova categoria.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Dados da categoria a ser cadastrada.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoria cadastrada com sucesso."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      }
+    },
+    "/categories/{categoryId}": {
+      "get": {
+        "tags": ["Categorias"],
+        "summary": "Buscar categoria por ID",
+        "description": "Endpoint para obter detalhes de uma categoria por ID.",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "ID da categoria a ser buscada.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categoria encontrada com sucesso."
+          },
+          "404": {
+            "description": "Categoria não encontrada."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": ["Pedidos"],
+        "summary": "Listar pedidos",
+        "description": "Endpoint para listar todos os pedidos.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Lista de pedidos retornada com sucesso."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      },
+      "post": {
+        "tags": ["Pedidos"],
+        "summary": "Criar pedido",
+        "description": "Endpoint para criar um novo pedido.",
+        "parameters": [],
+        "requestBody": {
+          "description": "Dados do pedido a ser criado.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pedido criado com sucesso."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      }
+    }
+  }
+}
