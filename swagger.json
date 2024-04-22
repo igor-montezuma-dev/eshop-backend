@@ -201,7 +201,83 @@
         "tags": ["Produtos"],
         "summary": "Cadastrar produto",
         "description": "Endpoint para cadastrar um novo produto.",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "path",
+            "description": "Descrição.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "richDescription",
+            "in": "path",
+            "description": "Descrição detalhada.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "in": "path",
+            "description": "Imagem.",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "images",
+            "in": "path",
+            "description": "Imagens.",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "brand",
+            "in": "path",
+            "description": "Marca.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "in": "path",
+            "description": "Preço.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "category",
+            "in": "path",
+            "description": "Id da categoria do produto.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "countInStock",
+            "in": "path",
+            "description": "Estoque.",
+            "required": true,
+            "type": "number"
+          }, {
+            "name": "rating",
+            "in": "path",
+            "description": "Avaliação.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "isFeatured",
+            "in": "path",
+            "description": "Destacar produto.",
+            "required": true,
+            "type": "boolean"
+          }
+        ],
         "requestBody": {
           "description": "Dados do produto a ser cadastrado.",
           "required": true,
@@ -260,6 +336,81 @@
             "description": "ID do produto a ser editado.",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "path",
+            "description": "Descrição.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "richDescription",
+            "in": "path",
+            "description": "Descrição detalhada.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "in": "path",
+            "description": "Imagem.",
+            "required": false,
+            "type": "file"
+          },
+          {
+            "name": "images",
+            "in": "path",
+            "description": "Imagens.",
+            "required": false,
+            "type": "file"
+          },
+          {
+            "name": "brand",
+            "in": "path",
+            "description": "Marca.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "in": "path",
+            "description": "Preço.",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "category",
+            "in": "path",
+            "description": "Id da categoria do produto.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "countInStock",
+            "in": "path",
+            "description": "Estoque.",
+            "required": false,
+            "type": "number"
+          }, {
+            "name": "rating",
+            "in": "path",
+            "description": "Avaliação.",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "isFeatured",
+            "in": "path",
+            "description": "Destacar produto.",
+            "required": false,
+            "type": "boolean"
           }
         ],
         "requestBody": {
@@ -305,7 +456,29 @@
         "tags": ["Categorias"],
         "summary": "Cadastrar categoria",
         "description": "Endpoint para cadastrar uma nova categoria.",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Nome da categoria.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "icon",
+            "in": "path",
+            "description": "Ícone da categoria.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "color",
+            "in": "path",
+            "description": "Cor da categoria.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "requestBody": {
           "description": "Dados da categoria a ser cadastrada.",
           "required": true,
@@ -357,12 +530,115 @@
         }
       }
     },
+     "post": {
+        "tags": ["Categorias"],
+        "summary": "Cadastrar categoria",
+        "description": "Endpoint para cadastrar uma nova categoria.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Nome da categoria.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "icon",
+            "in": "path",
+            "description": "Ícone da categoria.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "color",
+            "in": "path",
+            "description": "Cor da categoria.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "description": "Dados da categoria a ser cadastrada.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoria cadastrada com sucesso."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      },
+      "put": {
+        "tags": ["Categorias"],
+        "summary": "Editar categoria",
+        "description": "Endpoint para editar uma categoria.",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "ID da categoria a ser buscada.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Nome da categoria.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "icon",
+            "in": "path",
+            "description": "Ícone da categoria.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "color",
+            "in": "path",
+            "description": "Cor da categoria.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "description": "Dados da categoria a ser cadastrada.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoria cadastrada com sucesso."
+          },
+          "500": {
+            "description": "Erro interno."
+          }
+        }
+      },
     "/orders": {
       "get": {
         "tags": ["Pedidos"],
         "summary": "Listar pedidos",
         "description": "Endpoint para listar todos os pedidos.",
-        "parameters": [],
+        "parameters": [
+          
+        ],
         "responses": {
           "200": {
             "description": "Lista de pedidos retornada com sucesso."
@@ -379,7 +655,77 @@
         "tags": ["Pedidos"],
         "summary": "Criar pedido",
         "description": "Endpoint para criar um novo pedido.",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "orderItem",
+            "in": "path",
+            "required": true,
+            "type": "object"
+          },
+          {
+            "name": "shippingAddress1",
+            "in": "path",
+            "description": "Endereço 1",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "shippingAddress1",
+            "in": "path",
+            "description": "Endereço 2",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "city",
+            "in": "path",
+            "description": "Cidade.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "zip",
+            "in": "path",
+            "description": "Código postal.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "country",
+            "in": "path",
+            "description": "País.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "path",
+            "description": "Telefone.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "description": "Status.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "totalPrice",
+            "in": "path",
+            "description": "Preço total.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id do usuário que efetua a compra.",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "requestBody": {
           "description": "Dados do pedido a ser criado.",
           "required": true,
