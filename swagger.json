@@ -325,7 +325,7 @@
           }
         }
       },
-      "put": {
+      "patch": {
         "tags": ["Produtos"],
         "summary": "Editar produto",
         "description": "Endpoint para editar um produto existente.",
@@ -577,7 +577,7 @@
           }
         }
       },
-      "put": {
+      "patch": {
         "tags": ["Categorias"],
         "summary": "Editar categoria",
         "description": "Endpoint para editar uma categoria.",
